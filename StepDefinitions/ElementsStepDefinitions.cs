@@ -17,6 +17,7 @@ namespace SpecFlowDemoQa.StepDefinitions
         ElementsPage? _elementsPage;
         TextBoxPage? _textBoxPage;
         CheckBoxPage? _checkBoxPage;
+        WebTablesPage? _webTablesPage;
 
         [BeforeTestRun]
         public static void SetUp()
@@ -62,6 +63,9 @@ namespace SpecFlowDemoQa.StepDefinitions
                         break;
                     case "Check Box":
                         _checkBoxPage = new CheckBoxPage(_driver);
+                        break;
+                    case "Web Tables":
+                        _webTablesPage = new WebTablesPage(_driver);
                         break;
                     default: break;
                 }
@@ -168,5 +172,36 @@ namespace SpecFlowDemoQa.StepDefinitions
             string[] expectedResultArray = expectedResult.Split();
             Assert.AreEqual(expectedResultArray, displayedItems, "Result comparison failed");
         }
+
+        [When(@"I click on ""([^""]*)"" column")]
+        public void WhenIClickOnColumn(string columnName)
+        {
+            _webTablesPage?.ClickOnColumn(columnName);
+        }
+
+        [Then(@"values in the Salary column should be in ascending order")]
+        public void ThenValuesInTheSalaryColumnShouldBeInAscendingOrder()
+        {
+            Assert.That(_webTablesPage?.IsOrderAscending(), Is.True,"Salary values are not in ascending order");
+        }
+
+        [When(@"I delete the second row with name ""([^""]*)""")]
+        public void WhenIDeleteTheSecondRowWithName(string firstName)
+        {
+            _webTablesPage?.DeleteRowWithFirstName(firstName);
+        }
+
+        [Then(@"the table should have only (\d+) rows")]
+        public void ThenTheTableShouldHaveOnlyTwoRows(int expectedCount)
+        {
+            Assert.That(_webTablesPage?.RowsCount(), Is.EqualTo(expectedCount), "Rows count doesn't match expected count value");
+        }
+
+        [Then(@"the ""([^""]*)"" column should not contain the value ""([^""]*)""")]
+        public void ThenTheColumnShouldNotContainTheValue(string department, string depName)
+        {
+            Assert.That(_webTablesPage?.ColumnContainsValue(department, depName), Is.False, $"{department} still contains {depName}");
+        }
+
     }
 }
