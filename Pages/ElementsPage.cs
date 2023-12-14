@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,44 +12,22 @@ namespace SpecFlowDemoQa.Pages
     internal class ElementsPage 
     {
         WebDriver _driver;
-        By _textBoxMenu   = By.XPath("//span[text()='Text Box']");
-        By _checkBoxMenu  = By.XPath("//span[text()='Check Box']");
-        By _webTablesMenu = By.XPath("//span[text()='Web Tables']");
-        By _buttonsMenu   = By.XPath("//span[text()='Buttons']");
+
+        private By MakeXPathSelector(string item) => By.XPath($"//span[text()='{item}']");
         public ElementsPage(WebDriver driver)
         {
             _driver = driver;
         }
 
-        public IWebElement FindElement(By name)
+        public IWebElement FindElement(By name, TimeSpan? timeout = null)
         {
-            return _driver.FindElement(name);
+            WebDriverWait wait = new WebDriverWait(_driver, timeout ?? TimeSpan.FromSeconds(10));
+            return wait.Until(_driver => _driver.FindElement(name));
         }
 
-        public void GoToTextBox()
+        public void GoTo(string menu)
         {
-            FindElement(_textBoxMenu).Click();
+            FindElement(MakeXPathSelector(menu)).Click();
         }
-
-        public void GoToCheckBox()
-        {
-            FindElement(_checkBoxMenu).Click();
-        }
-
-        public void GoToButton()
-        {
-            FindElement(_buttonsMenu).Click();
-        }
-
-        public void GoToWebTables()
-        {
-            FindElement(_webTablesMenu).Click();
-        }
-        public void ClickOn(string category)
-        {
-
-        }
-
-
     }
 }

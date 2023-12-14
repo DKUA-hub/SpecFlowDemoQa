@@ -30,7 +30,7 @@ namespace SpecFlowDemoQa.Pages
 
                 menuLink.Click();
             }
-            catch (Exception e)
+            catch
             {
                 throw new Exception($"Couldn't navigate by {menu} link");
             }
@@ -51,7 +51,7 @@ namespace SpecFlowDemoQa.Pages
 
                 return menuLink.Displayed;
             }
-            catch (Exception e)
+            catch 
             {
                 throw new Exception($"Couldn't find {link} menu");
             }

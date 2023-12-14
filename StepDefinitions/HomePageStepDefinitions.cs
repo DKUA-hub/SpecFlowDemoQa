@@ -10,15 +10,15 @@ namespace SpecFlowDemoQa.StepDefinitions
     [Binding]
     public class HomePageStepDefinitions
     {
-        private static WebDriver _driver;
+        private static WebDriver? _driver;
         string _url = "https://demoqa.com/";
-        HomePage _homePage;
+        HomePage? _homePage;
 
         [BeforeScenario]
         public static void SetUp()
         {
             _driver = SharedDriver.GetDriver();
-            _driver.Manage().Window.Maximize();
+            _driver?.Manage().Window.Maximize();
         }
 
         [AfterScenario]
