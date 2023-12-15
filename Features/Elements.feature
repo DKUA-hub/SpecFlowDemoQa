@@ -39,15 +39,28 @@ Scenario: Verify selected Check Boxes reported in Output message
 	And I select "Downloads" folder by click on its name
 	Then I see output message "You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile"
 
+@webtable
 Scenario: Verify table sorting by salary column
     When I select "Web Tables" from the menu
 	And I click on "Salary" column
 	Then values in the Salary column should be in ascending order
 
+@webtable
 Scenario: Verify correctness of deletion data from the table
     When I select "Web Tables" from the menu
 	And I delete the second row with name "Alden"
     Then the table should have only 2 rows
     And the "Department" column should not contain the value "Compliance"
 
+@button
+Scenario Outline: Verify possible mouse click actions
+	When I select "Buttons" from the menu
+	And I <click> on a <button>
+	Then <message> appears on the screen
+
+	Examples:
+	| click        | button          | message                       |
+	| "double click" | "Double Click Me" | "You have done a double click"  |
+	| "right click"  | "Right Click Me"  | "You have done a right click"   |
+	| "one click"    | "Click Me"        | "You have done a dynamic click" |
 	

@@ -18,6 +18,7 @@ namespace SpecFlowDemoQa.StepDefinitions
         TextBoxPage? _textBoxPage;
         CheckBoxPage? _checkBoxPage;
         WebTablesPage? _webTablesPage;
+        ButtonsPage? _buttonsPage;
 
         [BeforeTestRun]
         public static void SetUp()
@@ -66,6 +67,9 @@ namespace SpecFlowDemoQa.StepDefinitions
                         break;
                     case "Web Tables":
                         _webTablesPage = new WebTablesPage(_driver);
+                        break;
+                    case "Buttons":
+                        _buttonsPage = new ButtonsPage(_driver);
                         break;
                     default: break;
                 }
@@ -203,5 +207,16 @@ namespace SpecFlowDemoQa.StepDefinitions
             Assert.That(_webTablesPage?.ColumnContainsValue(department, depName), Is.False, $"{department} still contains {depName}");
         }
 
+        [When(@"I ""([^""]*)"" on a ""([^""]*)""")]
+        public void WhenIOnClickOnAButton(string action, string button)
+        {
+            _buttonsPage?.ClickOnAButton(action, button);
+        }
+
+        [Then(@"""([^""]*)"" appears on the screen")]
+        public void ThenMessageAppearsOnTheScreen(string message)
+        {
+            Assert.That(_buttonsPage?.IsMessageDisplayed(message), Is.True, $"Message {message} didn't appear");
+        }
     }
 }
