@@ -4,7 +4,7 @@ As a User I want to make sure
 I'm able to use all web elements in Elements properly
 
 Background:
-	Given I am on the 'https://demoqa.com' page
+	Given I am on the DemoQA homepage
 	And I navigate to the "Elements" menu
 
 @textBoxes

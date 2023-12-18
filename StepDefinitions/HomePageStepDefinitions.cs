@@ -32,6 +32,7 @@ namespace SpecFlowDemoQa.StepDefinitions
         {
             _driver.Navigate().GoToUrl(_url);
             _homePage = new HomePage(_driver);
+            HomePage.SetHomePage(_homePage);
         }
 
 

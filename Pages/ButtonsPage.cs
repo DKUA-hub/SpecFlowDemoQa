@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,13 @@ namespace SpecFlowDemoQa.Pages
         public ButtonsPage(WebDriver driver)
         {
             _driver = driver;
+        }
+
+        public IWebElement FindElement(By by, TimeSpan? timeout = null)
+        {
+            WebDriverWait wait = new WebDriverWait(_driver, timeout ?? TimeSpan.FromSeconds(5));
+            return wait.Until(_driver => _driver.FindElement(by));
+
         }
 
         internal void ClickOnAButton(string action, string button)
@@ -40,7 +48,9 @@ namespace SpecFlowDemoQa.Pages
                     throw new Exception($"Unknown button \"{button}\" can't be located.");
             }
 
-            buttonElement = _driver.FindElement(buttonXPathLocator);
+            //buttonElement = _driver.FindElement(buttonXPathLocator);
+            Thread.Sleep(1000);
+            buttonElement = FindElement(buttonXPathLocator);
 
             switch (action)
             {
@@ -78,8 +88,8 @@ namespace SpecFlowDemoQa.Pages
                 default: 
                     throw new Exception($"Unknown message \"{messageId}\" can't be handled");
             }
-
-            return _driver.FindElement(MakeMessageXPathLocator(messageId)).Displayed;
+            bool flag = FindElement(MakeMessageXPathLocator(messageId)).Displayed;
+            return flag;
         }
     }
 }

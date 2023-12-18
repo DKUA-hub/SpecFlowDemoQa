@@ -20,39 +20,33 @@ namespace SpecFlowDemoQa.StepDefinitions
         WebTablesPage? _webTablesPage;
         ButtonsPage? _buttonsPage;
 
-        [BeforeTestRun]
+        [BeforeScenario]
         public static void SetUp()
         {
             _driver = SharedDriver.GetDriver();
             _driver?.Manage().Window.Maximize();
+            if (_driver is not null) SharedDriver.SetDriver( _driver );
         }
 
-        [AfterTestRun]
+        [AfterScenario]
         public static void TearDown()
         {
             SharedDriver.QuitDriver();
         }
 
-        [Given(@"I am on the '([^']*)' page")]
-        public void GivenIAmOnThePage(string p0)
-        {
-            if (_driver is not null)
-            {
-                _driver.Navigate().GoToUrl(p0);
-                _homePage = new HomePage(_driver);
-            }
-        }
-
         [Given(@"I navigate to the ""([^""]*)"" menu")]
         public void GivenINavigateToTheMenu(string menu)
         {
+            _homePage = HomePage.GetHomePage();
             _homePage?.GoTo(menu);
-            if (_driver is not null) _elementsPage = new ElementsPage(_driver);
+            if (_driver is not null) SharedDriver.SetDriver(_driver);
         }
 
         [When(@"I select ""([^""]*)"" from the menu")]
         public void WhenISelectFromTheMenu(string menu)
         {
+            _driver = SharedDriver.GetDriver();
+            _elementsPage = new ElementsPage(_driver);
             _elementsPage?.GoTo(menu);
 
             if (_driver is not null)

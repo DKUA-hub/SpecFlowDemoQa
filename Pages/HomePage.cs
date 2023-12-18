@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,22 @@ namespace SpecFlowDemoQa.Pages
     internal class HomePage
     {
         WebDriver _driver;
-        IJavaScriptExecutor? _js;
+        private static HomePage? _homePage;
+        IJavaScriptExecutor _js;
+        
         public HomePage(WebDriver driver)
         {
             _driver = driver;
+        }
+
+        public static HomePage? GetHomePage()
+        {
+            return _homePage;
+        }
+
+        public static void SetHomePage(HomePage homePage)
+        {
+            _homePage = homePage;
         }
 
         public By MakeXPathMenuSelector(string menu) => By.XPath($"//h5[text()='{menu}']");
@@ -22,17 +35,17 @@ namespace SpecFlowDemoQa.Pages
 
         public void GoTo(string menu)
         {
+            IWebElement menuLink = FindElement(MakeXPathMenuSelector(menu));
+
             try
             {
-                IWebElement menuLink = FindElement(MakeXPathMenuSelector(menu));
-                _js = _driver;
-                _js.ExecuteScript($"window.scroll(0, {menuLink.Location.Y / 2})");
-
                 menuLink.Click();
             }
             catch
             {
-                throw new Exception($"Couldn't navigate by {menu} link");
+                _js = _driver;
+                _js.ExecuteScript($"window.scroll(0,{menuLink.Location.Y/2})");
+                menuLink.Click();
             }
         }
 
@@ -43,18 +56,8 @@ namespace SpecFlowDemoQa.Pages
 
         internal bool IsMenuDisplayed(string link)
         {
-            try
-            {
-                IWebElement menuLink = FindElement(MakeXPathMenuSelector(link));
-                _js = _driver;
-                _js.ExecuteScript($"window.scroll(0, {menuLink.Location.Y / 2})");
-
-                return menuLink.Displayed;
-            }
-            catch 
-            {
-                throw new Exception($"Couldn't find {link} menu");
-            }
+            IWebElement menuLink = FindElement(MakeXPathMenuSelector(link));
+            return menuLink.Displayed;
         }
     }
 }

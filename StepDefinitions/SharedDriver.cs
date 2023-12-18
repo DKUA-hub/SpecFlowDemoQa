@@ -14,6 +14,26 @@ namespace SpecFlowDemoQa.StepDefinitions
     {
         private static WebDriver? _driver;
 
+        [BeforeScenario]
+        public static void BeforeScenario()
+        {
+            //_driver = new ChromeDriver();  // Ви можете використовувати інший драйвер за потреби
+            InitializeDriver();
+            _driver.Manage().Window.Maximize();
+            Thread.Sleep(3000);
+            _driver.Navigate().GoToUrl("https://demoqa.com/");
+        }
+
+        [AfterScenario]
+        public static void AfterScenario()
+        {
+            if (_driver != null)
+            {
+                _driver.Quit();
+                _driver = null;
+            }
+        }
+
         public SharedDriver()
         {
 
@@ -48,14 +68,22 @@ namespace SpecFlowDemoQa.StepDefinitions
 
         public static WebDriver? GetDriver()
         {
-            InitializeDriver();
-
+            if (_driver is null) InitializeDriver();
             return _driver;
+        }
+        
+        public static void SetDriver(WebDriver driver)
+        {
+            _driver = driver;
         }
 
         public static void QuitDriver()
         {
-            if (_driver != null) _driver.Quit();
+            if (_driver != null)
+            {
+                _driver.Quit();
+                _driver = null;
+            }
         }
     }
 }
