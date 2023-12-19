@@ -10,7 +10,7 @@ using TechTalk.SpecFlow;
 namespace SpecFlowDemoQa.StepDefinitions
 {
     [Binding]
-    public class ElementsStepDefinitions
+    public class ElementsStepDefinitions : BaseStepDefinitions
     {
         private static WebDriver? _driver;
         HomePage? _homePage;
@@ -20,23 +20,10 @@ namespace SpecFlowDemoQa.StepDefinitions
         WebTablesPage? _webTablesPage;
         ButtonsPage? _buttonsPage;
 
-        [BeforeScenario]
-        public static void SetUp()
-        {
-            _driver = SharedDriver.GetDriver();
-            _driver?.Manage().Window.Maximize();
-            if (_driver is not null) SharedDriver.SetDriver( _driver );
-        }
-
-        [AfterScenario]
-        public static void TearDown()
-        {
-            SharedDriver.QuitDriver();
-        }
-
         [Given(@"I navigate to the ""([^""]*)"" menu")]
         public void GivenINavigateToTheMenu(string menu)
         {
+            _driver = SharedDriver.GetDriver();
             _homePage = HomePage.GetHomePage();
             _homePage?.GoTo(menu);
             if (_driver is not null) SharedDriver.SetDriver(_driver);

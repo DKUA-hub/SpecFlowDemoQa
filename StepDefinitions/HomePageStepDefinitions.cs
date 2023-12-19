@@ -8,28 +8,16 @@ using TechTalk.SpecFlow;
 namespace SpecFlowDemoQa.StepDefinitions
 {
     [Binding]
-    public class HomePageStepDefinitions
+    public class HomePageStepDefinitions : BaseStepDefinitions
     {
         private static WebDriver? _driver;
         string _url = "https://demoqa.com/";
         HomePage? _homePage;
 
-        [BeforeScenario]
-        public static void SetUp()
-        {
-            _driver = SharedDriver.GetDriver();
-            _driver?.Manage().Window.Maximize();
-        }
-
-        [AfterScenario]
-        public static void TearDown()
-        {
-            SharedDriver.QuitDriver();
-        }
-
         [Given(@"I am on the DemoQA homepage")]
         public void GivenIAmOnTheDemoQAHomepage()
         {
+            _driver = SharedDriver.GetDriver();
             _driver.Navigate().GoToUrl(_url);
             _homePage = new HomePage(_driver);
             HomePage.SetHomePage(_homePage);

@@ -48,8 +48,6 @@ namespace SpecFlowDemoQa.Pages
                     throw new Exception($"Unknown button \"{button}\" can't be located.");
             }
 
-            //buttonElement = _driver.FindElement(buttonXPathLocator);
-            Thread.Sleep(1000);
             buttonElement = FindElement(buttonXPathLocator);
 
             switch (action)
@@ -88,8 +86,8 @@ namespace SpecFlowDemoQa.Pages
                 default: 
                     throw new Exception($"Unknown message \"{messageId}\" can't be handled");
             }
-            bool flag = FindElement(MakeMessageXPathLocator(messageId)).Displayed;
-            return flag;
+            
+            return FindElement(MakeMessageXPathLocator(messageId)).Displayed;
         }
     }
 }

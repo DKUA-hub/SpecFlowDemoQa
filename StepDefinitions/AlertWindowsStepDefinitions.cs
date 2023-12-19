@@ -7,25 +7,11 @@ using TechTalk.SpecFlow;
 namespace SpecFlowDemoQa.StepDefinitions
 {
     [Binding]
-    public class AlertWindowsStepDefinitions
+    public class AlertWindowsStepDefinitions : BaseStepDefinitions
     {
         private WebDriver _driver;
         //private HomePage? _homePage;
         private BrowserWindowsPage _browserWindowsPage;
-
-        /*[BeforeScenario]
-        public static void SetUp()
-        {
-            _driver = SharedDriver.GetDriver();
-            _driver?.Manage().Window.Maximize();
-            if (_driver is not null) SharedDriver.SetDriver(_driver);
-        }
-
-        [AfterScenario]
-        public static void TearDown()
-        {
-            SharedDriver.QuitDriver();
-        }*/
 
         [When(@"I click on a ""([^""]*)"" button")]
         public void WhenIClickOnAButton(string button)

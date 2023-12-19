@@ -361,5 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Features/AlertWindows.feature.cs
-/Features/Elements.feature.cs
+/Features/*.feature.cs
